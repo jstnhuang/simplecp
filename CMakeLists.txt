@@ -6,6 +6,7 @@ project(simplecp)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  rostest
   message_generation
 )
 
@@ -158,6 +159,13 @@ target_link_libraries(click_transformer
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
+
+add_rostest_gtest(click_transformer_test
+  test/click_transformer.test
+  test/click_transformer_test.cpp
+)
+target_link_libraries(click_transformer_test ${catkin_LIBRARIES})
+
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="simplecp" type="click_transformer" name="click_transformer" />
+  <test test-name="click_transformer_test" pkg="simplecp" type="click_transformer_test" />
+</launch>
