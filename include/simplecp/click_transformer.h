@@ -16,8 +16,8 @@ enum class ClickState {
 class ClickTransformer {
  public:
   static const int kClickNanoseconds = 100000000;
-  ClickTransformer(const ros::NodeHandle& node_handle,
-                   const ros::Publisher& click_publisher);
+  ClickTransformer(const std::string& feedback_topic,
+                   const std::string& event_topic);
   void ProcessFeedback(int event_type, const std::string& marker_name,
                        const ros::Time& time);
 

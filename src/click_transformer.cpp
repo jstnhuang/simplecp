@@ -6,15 +6,16 @@
 
 namespace simplecp {
 
-ClickTransformer::ClickTransformer(const ros::NodeHandle& node_handle,
-                                   const ros::Publisher& event_publisher)
-    : node_handle_(node_handle),
-      event_publisher_(event_publisher),
+ClickTransformer::ClickTransformer(const std::string& feedback_topic,
+                                   const std::string& event_topic)
+    : node_handle_(),
+      marker_subscriber_(
+          node_handle_.subscribe(feedback_topic, 5,
+                                 &ClickTransformer::MarkerCallback, this)),
+      event_publisher_(
+          node_handle_.advertise <MarkerEvent>(event_topic, 5)),
       click_state_(ClickState::kStart),
       mouse_down_time_() {
-  marker_subscriber_ = node_handle_.subscribe(
-      "/pr2_marker_control_transparent/feedback", 5,
-      &ClickTransformer::MarkerCallback, this);
 }
 
 void ClickTransformer::ProcessFeedback(int event_type,
@@ -33,8 +34,7 @@ void ClickTransformer::ProcessFeedback(int event_type,
       mouse_down_time_ = time;
     }
   } else if (click_state_ == ClickState::kDown) {
-    if (event_type
-        == visualization_msgs::InteractiveMarkerFeedback::MOUSE_UP) {
+    if (event_type == visualization_msgs::InteractiveMarkerFeedback::MOUSE_UP) {
       auto click_time = time - mouse_down_time_;
       if (click_time < ros::Duration(0, kClickNanoseconds)) {
         click_state_ = ClickState::kStart;
@@ -63,10 +63,9 @@ void ClickTransformer::MarkerCallback(
 
 int main(int argc, char** argv) {
   ros::init(argc, argv, "click_transformer");
-  ros::NodeHandle node_handle("simplecp");
-  ros::Publisher event_publisher =
-      node_handle.advertise<simplecp::MarkerEvent>("marker_events", 5);
-  simplecp::ClickTransformer click_transformer(node_handle, event_publisher);
+  simplecp::ClickTransformer click_transformer(
+      "/pr2_marker_control_transparent/feedback",
+      "/simplecp/marker_events");
   ros::spin();
   return 0;
 }
