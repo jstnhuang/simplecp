@@ -10,9 +10,7 @@
 namespace simplecp {
 enum class ClickState {
   kStart,
-  kDown,
-  kClick,
-  kDrag
+  kDown
 };
 
 class ClickTransformer {

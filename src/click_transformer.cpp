@@ -37,13 +37,13 @@ void ClickTransformer::ProcessFeedback(int event_type,
         == visualization_msgs::InteractiveMarkerFeedback::MOUSE_UP) {
       auto click_time = time - mouse_down_time_;
       if (click_time < ros::Duration(0, kClickNanoseconds)) {
-        click_state_ = ClickState::kClick;
+        click_state_ = ClickState::kStart;
         simplecp::MarkerEvent event;
         event.type = simplecp::MarkerEvent::CLICK;
         event.marker_name = marker_name;
         event_publisher_.publish(event);
       } else {
-        click_state_ = ClickState::kDrag;
+        click_state_ = ClickState::kStart;
         simplecp::MarkerEvent event;
         event.type = simplecp::MarkerEvent::DRAG;
         event.marker_name = marker_name;
