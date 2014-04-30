@@ -50,3 +50,10 @@ qtcreator-*
 
 # Catkin custom files
 CATKIN_IGNORE
+
+CMakeFiles/
+CTestTestfile.cmake
+Makefile
+catkin_generated/
+cmake/
+cmake_install.cmake
