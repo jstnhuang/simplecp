@@ -87,10 +87,13 @@ catkin_package(
 ## Build ##
 ###########
 
+set(CMAKE_CXX_FLAGS "-std=c++0x")
+
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -100,16 +103,16 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-# add_executable(simplecp_node src/simplecp_node.cpp)
+add_executable(click_transformer src/click_transformer.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(simplecp_node simplecp_generate_messages_cpp)
+add_dependencies(click_transformer simplecp_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(simplecp_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(click_transformer
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
