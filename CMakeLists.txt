@@ -101,9 +101,8 @@ include_directories(
 )
 
 ## Declare a cpp library
-# add_library(simplecp
-#   src/${PROJECT_NAME}/simplecp.cpp
-# )
+add_library(viewpoint_node_lib src/viewpoint_node.cpp
+)
 
 ## Declare a cpp executable
 add_executable(click_transformer src/click_transformer.cpp)
@@ -161,10 +160,8 @@ target_link_libraries(viewpoint_node ${catkin_LIBRARIES})
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_simplecp.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
+catkin_add_gtest(viewpoint_node_test test/viewpoint_node_test.cpp)
+target_link_libraries(viewpoint_node_test viewpoint_node_lib ${catkin_LIBRARIES})
 
 add_rostest_gtest(click_transformer_test
   test/click_transformer.test
