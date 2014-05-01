@@ -1,11 +1,15 @@
 #ifndef SIMPLECP_CLICK_TRANSFORMER_H_
 #define SIMPLECP_CLICK_TRANSFORMER_H_
 
+#include <map>
+
 #include <ros/node_handle.h>
 #include <ros/publisher.h>
 #include <ros/subscriber.h>
 #include <ros/time.h>
 #include <visualization_msgs/InteractiveMarkerFeedback.h>
+
+#include "simplecp/MarkerEvent.h"
 
 namespace simplecp {
 enum class ClickState {
@@ -13,9 +17,14 @@ enum class ClickState {
   kDown
 };
 
+typedef std::map<std::string, std::string> ControlMap;
+
 class ClickTransformer {
  public:
   static const int kClickNanoseconds = 100000000;
+  static const ControlMap kGripperControls;
+  static const ControlMap kPointHeadControls;
+
   ClickTransformer(const std::string& feedback_topic,
                    const std::string& event_topic);
 
@@ -28,6 +37,8 @@ class ClickTransformer {
 
   void MarkerCallback(
       const visualization_msgs::InteractiveMarkerFeedback& feedback);
+  std::string GetControlType(const std::string& marker_name,
+                             const std::string& control_name);
 };
 }  // namespace simplecp
 
