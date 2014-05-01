@@ -117,6 +117,10 @@ target_link_libraries(click_transformer
   ${catkin_LIBRARIES}
 )
 
+add_executable(viewpoint_node src/viewpoint_node.cpp)
+add_dependencies(viewpoint_node simplecp_generate_messages_cpp)
+target_link_libraries(viewpoint_node ${catkin_LIBRARIES})
+
 #############
 ## Install ##
 #############
