@@ -5,26 +5,6 @@
 
 namespace simplecp {
 
-// Maps built by observing /pr2_marker_control_transparent/feedback
-// TODO(jstn): These sometimes change between executions :(.
-const ControlMap ClickTransformer::kGripperControls = {
-  { "_u0", MarkerEvent::X },
-  { "_u4", MarkerEvent::Y },
-  { "_u2", MarkerEvent::Z },
-  { "_u3", MarkerEvent::PITCH },
-  { "", MarkerEvent::ROLL },
-  { "_u1", MarkerEvent::YAW }
-};
-
-const ControlMap ClickTransformer::kPointHeadControls = {
-  { "_u1", MarkerEvent::X },
-  { "_u5", MarkerEvent::Y },
-  { "_u3", MarkerEvent::Z },
-  { "_u4", MarkerEvent::PITCH },
-  { "_u0", MarkerEvent::ROLL },
-  { "_u2", MarkerEvent::YAW }
-};
-
 ClickTransformer::ClickTransformer(const std::string& feedback_topic,
                                    const std::string& event_topic)
     : node_handle_(),
