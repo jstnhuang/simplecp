@@ -77,7 +77,7 @@ TEST_F(ClickTransformerTest, Click) {
 
 TEST_F(ClickTransformerTest, Drag) {
   Publish(Feedback::MOUSE_DOWN, "r_gripper_control", "_u0");
-  ros::Duration(0, ClickTransformer::kClickNanoseconds + 1000).sleep();
+  ros::Duration(0, ClickTransformer::kClickNanoseconds * 2).sleep();
   Publish(Feedback::MOUSE_UP, "r_gripper_control", "_u0");
   auto event = WaitForEvent();
   EXPECT_TRUE(event != NULL);
@@ -95,7 +95,7 @@ TEST_F(ClickTransformerTest, MultipleClickDrag) {
   EXPECT_EQ("l_gripper_control", event->marker_name);
 
   Publish(Feedback::MOUSE_DOWN, "r_gripper_control", "_u0");
-  ros::Duration(0, ClickTransformer::kClickNanoseconds + 1000).sleep();
+  ros::Duration(0, ClickTransformer::kClickNanoseconds * 2).sleep();
   Publish(Feedback::MOUSE_UP, "r_gripper_control", "_u0");
   event = WaitForEvent();
   EXPECT_TRUE(event != NULL);
@@ -105,7 +105,7 @@ TEST_F(ClickTransformerTest, MultipleClickDrag) {
 
 TEST_F(ClickTransformerTest, UnsupportedMarkerDoesNothing) {
   Publish(Feedback::MOUSE_DOWN, "unsupported_control", "_u0");
-  ros::Duration(0, ClickTransformer::kClickNanoseconds - 1000).sleep();
+  ros::Duration(0, ClickTransformer::kClickNanoseconds / 2).sleep();
   Publish(Feedback::MOUSE_UP, "unsupported_control", "_u0");
   auto event = WaitForEvent();
   EXPECT_EQ(NULL, event.get());
