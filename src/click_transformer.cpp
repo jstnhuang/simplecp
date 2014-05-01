@@ -51,7 +51,7 @@ void ClickTransformer::MarkerCallback(
       click_state_ = ClickState::kDown;
       mouse_down_time_ = ros::Time::now();
     }
-  } else if (click_state_ == ClickState::kDown) {
+  } else {
     if (feedback.event_type
         == visualization_msgs::InteractiveMarkerFeedback::MOUSE_UP) {
       auto click_time = ros::Time::now() - mouse_down_time_;
@@ -68,8 +68,6 @@ void ClickTransformer::MarkerCallback(
       event_publisher_.publish(event);
       click_state_ = ClickState::kStart;
     }
-  } else {
-    click_state_ = ClickState::kStart;
   }
 }
 
