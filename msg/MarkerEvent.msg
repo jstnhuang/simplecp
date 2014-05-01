@@ -1,4 +1,12 @@
 string type
 string marker_name
+string control_type
+geometry_msgs/Point position
 string CLICK=click
 string DRAG=drag
+string X=x
+string Y=y
+string Z=z
+string PITCH=pitch
+string ROLL=roll
+string YAW=yaw
