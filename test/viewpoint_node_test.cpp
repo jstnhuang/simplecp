@@ -9,14 +9,14 @@
 
 namespace simplecp {
 TEST(TestViewpointNode, XControl) {
-  geometry_msgs::Point current_position;
-  current_position.x = 2;
-  current_position.y = 2;
-  current_position.z = 2;
   geometry_msgs::Point marker_position;
   marker_position.x = 1;
-  marker_position.y = 1;
-  marker_position.z = 1;
+  marker_position.y = 2;
+  marker_position.z = 3;
+  geometry_msgs::Point current_position;
+  current_position.x = marker_position.x + 1;
+  current_position.y = marker_position.y + 1;
+  current_position.z = marker_position.z + 1;
   auto control_type = MarkerEvent::X;
   geometry_msgs::Point result_point;
   ComputeOrthogonalPoint(current_position, marker_position, control_type,
@@ -27,14 +27,14 @@ TEST(TestViewpointNode, XControl) {
 }
 
 TEST(TestViewpointNode, YControl) {
-  geometry_msgs::Point current_position;
-  current_position.x = 2;
-  current_position.y = 2;
-  current_position.z = 2;
   geometry_msgs::Point marker_position;
   marker_position.x = 1;
-  marker_position.y = 1;
-  marker_position.z = 1;
+  marker_position.y = 2;
+  marker_position.z = 3;
+  geometry_msgs::Point current_position;
+  current_position.x = marker_position.x + 1;
+  current_position.y = marker_position.y + 1;
+  current_position.z = marker_position.z + 1;
   auto control_type = MarkerEvent::Y;
   geometry_msgs::Point result_point;
   ComputeOrthogonalPoint(current_position, marker_position, control_type,
@@ -45,14 +45,14 @@ TEST(TestViewpointNode, YControl) {
 }
 
 TEST(TestViewpointNode, ZControl) {
-  geometry_msgs::Point current_position;
-  current_position.x = 2;
-  current_position.y = 2;
-  current_position.z = 2;
   geometry_msgs::Point marker_position;
   marker_position.x = 1;
-  marker_position.y = 1;
-  marker_position.z = 1;
+  marker_position.y = 2;
+  marker_position.z = 3;
+  geometry_msgs::Point current_position;
+  current_position.x = marker_position.x + 1;
+  current_position.y = marker_position.y + 1;
+  current_position.z = marker_position.z + 1;
   auto control_type = MarkerEvent::Z;
   geometry_msgs::Point result_point;
   ComputeOrthogonalPoint(current_position, marker_position, control_type,
@@ -63,14 +63,14 @@ TEST(TestViewpointNode, ZControl) {
 }
 
 TEST(TestViewpointNode, Pitch) {
-  geometry_msgs::Point current_position;
-  current_position.x = 2;
-  current_position.y = 2;
-  current_position.z = 2;
   geometry_msgs::Point marker_position;
   marker_position.x = 1;
-  marker_position.y = 1;
-  marker_position.z = 1;
+  marker_position.y = 2;
+  marker_position.z = 3;
+  geometry_msgs::Point current_position;
+  current_position.x = marker_position.x + 1;
+  current_position.y = marker_position.y + 1;
+  current_position.z = marker_position.z + 1;
   auto control_type = MarkerEvent::PITCH;
   geometry_msgs::Point result_point;
   ComputeOrthogonalPoint(current_position, marker_position, control_type,
@@ -81,14 +81,14 @@ TEST(TestViewpointNode, Pitch) {
 }
 
 TEST(TestViewpointNode, Roll) {
-  geometry_msgs::Point current_position;
-  current_position.x = 2;
-  current_position.y = 2;
-  current_position.z = 2;
   geometry_msgs::Point marker_position;
   marker_position.x = 1;
-  marker_position.y = 1;
-  marker_position.z = 1;
+  marker_position.y = 2;
+  marker_position.z = 3;
+  geometry_msgs::Point current_position;
+  current_position.x = marker_position.x + 1;
+  current_position.y = marker_position.y + 1;
+  current_position.z = marker_position.z + 1;
   auto control_type = MarkerEvent::ROLL;
   geometry_msgs::Point result_point;
   ComputeOrthogonalPoint(current_position, marker_position, control_type,
@@ -99,14 +99,14 @@ TEST(TestViewpointNode, Roll) {
 }
 
 TEST(TestViewpointNode, Yaw) {
-  geometry_msgs::Point current_position;
-  current_position.x = 2;
-  current_position.y = 2;
-  current_position.z = 2;
   geometry_msgs::Point marker_position;
   marker_position.x = 1;
-  marker_position.y = 1;
-  marker_position.z = 1;
+  marker_position.y = 2;
+  marker_position.z = 3;
+  geometry_msgs::Point current_position;
+  current_position.x = marker_position.x + 1;
+  current_position.y = marker_position.y + 1;
+  current_position.z = marker_position.z + 1;
   auto control_type = MarkerEvent::YAW;
   geometry_msgs::Point result_point;
   ComputeOrthogonalPoint(current_position, marker_position, control_type,
