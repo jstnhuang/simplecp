@@ -59,6 +59,7 @@ void ClickTransformer::MarkerCallback(
       event.marker_name = feedback.marker_name;
       event.control_type = GetControlType(feedback.marker_name,
                                           feedback.control_name);
+      event.position = feedback.pose.position;
       if (click_time < ros::Duration(0, kClickNanoseconds)) {
         event.type = simplecp::MarkerEvent::CLICK;
       } else {
