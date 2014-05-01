@@ -37,10 +37,12 @@ class ClickTransformerTest : public ::testing::Test {
     }
   }
 
-  void Publish(int event_type, std::string marker_name) {
+  void Publish(int event_type, std::string marker_name,
+               std::string control_name) {
     Feedback feedback;
     feedback.event_type = event_type;
     feedback.marker_name = marker_name;
+    feedback.control_name = control_name;
     marker_publisher_.publish(feedback);
   }
 
@@ -64,9 +66,9 @@ class ClickTransformerTest : public ::testing::Test {
 };
 
 TEST_F(ClickTransformerTest, Click) {
-  Publish(Feedback::MOUSE_DOWN, "l_gripper_control");
+  Publish(Feedback::MOUSE_DOWN, "l_gripper_control", "_u0");
   ros::Duration(0, ClickTransformer::kClickNanoseconds / 2).sleep();
-  Publish(Feedback::MOUSE_UP, "l_gripper_control");
+  Publish(Feedback::MOUSE_UP, "l_gripper_control", "_u0");
   auto event = WaitForEvent();
   EXPECT_TRUE(event != NULL);
   EXPECT_EQ(MarkerEvent::CLICK, event->type);
@@ -74,9 +76,9 @@ TEST_F(ClickTransformerTest, Click) {
 }
 
 TEST_F(ClickTransformerTest, Drag) {
-  Publish(Feedback::MOUSE_DOWN, "r_gripper_control");
+  Publish(Feedback::MOUSE_DOWN, "r_gripper_control", "_u0");
   ros::Duration(0, ClickTransformer::kClickNanoseconds + 1000).sleep();
-  Publish(Feedback::MOUSE_UP, "r_gripper_control");
+  Publish(Feedback::MOUSE_UP, "r_gripper_control", "_u0");
   auto event = WaitForEvent();
   EXPECT_TRUE(event != NULL);
   EXPECT_EQ(MarkerEvent::DRAG, event->type);
@@ -84,17 +86,17 @@ TEST_F(ClickTransformerTest, Drag) {
 }
 
 TEST_F(ClickTransformerTest, MultipleClickDrag) {
-  Publish(Feedback::MOUSE_DOWN, "l_gripper_control");
+  Publish(Feedback::MOUSE_DOWN, "l_gripper_control", "_u0");
   ros::Duration(0, ClickTransformer::kClickNanoseconds / 2).sleep();
-  Publish(Feedback::MOUSE_UP, "l_gripper_control");
+  Publish(Feedback::MOUSE_UP, "l_gripper_control", "_u0");
   auto event = WaitForEvent();
   EXPECT_TRUE(event != NULL);
   EXPECT_EQ(MarkerEvent::CLICK, event->type);
   EXPECT_EQ("l_gripper_control", event->marker_name);
 
-  Publish(Feedback::MOUSE_DOWN, "r_gripper_control");
+  Publish(Feedback::MOUSE_DOWN, "r_gripper_control", "_u0");
   ros::Duration(0, ClickTransformer::kClickNanoseconds + 1000).sleep();
-  Publish(Feedback::MOUSE_UP, "r_gripper_control");
+  Publish(Feedback::MOUSE_UP, "r_gripper_control", "_u0");
   event = WaitForEvent();
   EXPECT_TRUE(event != NULL);
   EXPECT_EQ(MarkerEvent::DRAG, event->type);
@@ -102,9 +104,35 @@ TEST_F(ClickTransformerTest, MultipleClickDrag) {
 }
 
 TEST_F(ClickTransformerTest, UnsupportedMarkerDoesNothing) {
-  Publish(Feedback::MOUSE_DOWN, "unsupported_control");
+  Publish(Feedback::MOUSE_DOWN, "unsupported_control", "_u0");
   ros::Duration(0, ClickTransformer::kClickNanoseconds - 1000).sleep();
-  Publish(Feedback::MOUSE_UP, "unsupported_control");
+  Publish(Feedback::MOUSE_UP, "unsupported_control", "_u0");
+  auto event = WaitForEvent();
+  EXPECT_EQ(NULL, event.get());
+}
+
+TEST_F(ClickTransformerTest, ConvertKnownControl) {
+  Publish(Feedback::MOUSE_DOWN, "l_gripper_control", "_u0");
+  ros::Duration(0, ClickTransformer::kClickNanoseconds / 2).sleep();
+  Publish(Feedback::MOUSE_UP, "l_gripper_control", "_u0");
+  auto event = WaitForEvent();
+  EXPECT_TRUE(event != NULL);
+  EXPECT_EQ(ClickTransformer::kGripperControls.at("_u0"), event->control_type);
+}
+
+TEST_F(ClickTransformerTest, ConvertPostureControl) {
+  Publish(Feedback::MOUSE_DOWN, "l_posture_control", "");
+  ros::Duration(0, ClickTransformer::kClickNanoseconds / 2).sleep();
+  Publish(Feedback::MOUSE_UP, "l_posture_control", "");
+  auto event = WaitForEvent();
+  EXPECT_TRUE(event != NULL);
+  EXPECT_EQ(MarkerEvent::ROLL, event->control_type);
+}
+
+TEST_F(ClickTransformerTest, UnknownControlDoesNothing) {
+  Publish(Feedback::MOUSE_DOWN, "l_gripper_control", "unknown_control");
+  ros::Duration(0, ClickTransformer::kClickNanoseconds / 2).sleep();
+  Publish(Feedback::MOUSE_UP, "l_gripper_control", "unknown_control");
   auto event = WaitForEvent();
   EXPECT_EQ(NULL, event.get());
 }
