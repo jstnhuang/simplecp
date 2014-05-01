@@ -19,11 +19,11 @@ TEST(TestViewpointNode, XControl) {
   marker_position.z = 1;
   auto control_type = MarkerEvent::X;
   geometry_msgs::Point result_point;
-  ComputeOrthogonalPoint(current_position, marker_position,
-                                        control_type, &result_point);
-  EXPECT_FLOAT_EQ(1, result_point.x);
-  EXPECT_FLOAT_EQ(1 + sqrt(2), result_point.y);
-  EXPECT_FLOAT_EQ(2, result_point.z);
+  ComputeOrthogonalPoint(current_position, marker_position, control_type,
+                         &result_point);
+  EXPECT_FLOAT_EQ(marker_position.x, result_point.x);
+  EXPECT_FLOAT_EQ(marker_position.y + sqrt(2), result_point.y);
+  EXPECT_FLOAT_EQ(current_position.z, result_point.z);
 }
 
 TEST(TestViewpointNode, YControl) {
@@ -37,11 +37,11 @@ TEST(TestViewpointNode, YControl) {
   marker_position.z = 1;
   auto control_type = MarkerEvent::Y;
   geometry_msgs::Point result_point;
-  ComputeOrthogonalPoint(current_position, marker_position,
-                                        control_type, &result_point);
-  EXPECT_FLOAT_EQ(1 + sqrt(2), result_point.x);
-  EXPECT_FLOAT_EQ(1, result_point.y);
-  EXPECT_FLOAT_EQ(2, result_point.z);
+  ComputeOrthogonalPoint(current_position, marker_position, control_type,
+                         &result_point);
+  EXPECT_FLOAT_EQ(marker_position.x + sqrt(2), result_point.x);
+  EXPECT_FLOAT_EQ(marker_position.y, result_point.y);
+  EXPECT_FLOAT_EQ(current_position.z, result_point.z);
 }
 
 TEST(TestViewpointNode, ZControl) {
@@ -55,11 +55,11 @@ TEST(TestViewpointNode, ZControl) {
   marker_position.z = 1;
   auto control_type = MarkerEvent::Z;
   geometry_msgs::Point result_point;
-  ComputeOrthogonalPoint(current_position, marker_position,
-                                        control_type, &result_point);
-  EXPECT_FLOAT_EQ(1 + sqrt(1.5), result_point.x);
-  EXPECT_FLOAT_EQ(1 + sqrt(1.5), result_point.y);
-  EXPECT_FLOAT_EQ(1, result_point.z);
+  ComputeOrthogonalPoint(current_position, marker_position, control_type,
+                         &result_point);
+  EXPECT_FLOAT_EQ(marker_position.x + sqrt(1.5), result_point.x);
+  EXPECT_FLOAT_EQ(marker_position.y + sqrt(1.5), result_point.y);
+  EXPECT_FLOAT_EQ(marker_position.z, result_point.z);
 }
 }
 
