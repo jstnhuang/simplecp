@@ -19,13 +19,21 @@ void ComputeOrthogonalPoint(
   auto difference = current - marker;
   Ogre::Vector3 orthogonal_difference(0, 0, 0);
   if (control_type == MarkerEvent::X) {
+    int sign = 1;
+    if (difference.y < 0) {
+      sign = -1;
+    }
     orthogonal_difference.x = 0;
-    orthogonal_difference.y = sqrt(difference.x * difference.x
-                                   + difference.y * difference.y);
+    orthogonal_difference.y = sign * sqrt(difference.x * difference.x
+                                          + difference.y * difference.y);
     orthogonal_difference.z = difference.z;
   } else if (control_type == MarkerEvent::Y) {
-    orthogonal_difference.x = sqrt(difference.x * difference.x
-                                   + difference.y * difference.y);
+    int sign = 1;
+    if (difference.x < 0) {
+      sign = -1;
+    }
+    orthogonal_difference.x = sign * sqrt(difference.x * difference.x
+                                          + difference.y * difference.y);
     orthogonal_difference.y = 0;
     orthogonal_difference.z = difference.z;
   } else if (control_type == MarkerEvent::Z) {
@@ -35,14 +43,23 @@ void ComputeOrthogonalPoint(
     orthogonal_difference *=
         difference.length() / orthogonal_difference.length();
   } else if (control_type == MarkerEvent::PITCH) {
+    int sign = 1;
+    if (difference.y < 0) {
+      sign = -1;
+    }
     orthogonal_difference.x = 0;
-    orthogonal_difference.y = difference.length();
+    orthogonal_difference.y = sign * difference.length();
     orthogonal_difference.z = 0;
   } else if (control_type == MarkerEvent::ROLL) {
-    orthogonal_difference.x = difference.length();
+    int sign = 1;
+    if (difference.x < 0) {
+      sign = -1;
+    }
+    orthogonal_difference.x = sign * difference.length();
     orthogonal_difference.y = 0;
     orthogonal_difference.z = 0;
   } else if (control_type == MarkerEvent::YAW) {
+    // Special case: always go above the yaw ring.
     orthogonal_difference.x = 0;
     orthogonal_difference.y = 0;
     orthogonal_difference.z = difference.length();
