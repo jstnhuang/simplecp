@@ -63,6 +63,8 @@ void ComputeOrthogonalPoint(
     orthogonal_difference.x = 0;
     orthogonal_difference.y = 0;
     orthogonal_difference.z = difference.length();
+    // Special case: add a tiny component in the original direction.
+    orthogonal_difference += 0.01 / difference.length() * difference;
   } else {
     ROS_ERROR("Unknown control type %s", control_type.c_str());
   }
