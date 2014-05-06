@@ -21,7 +21,7 @@ typedef std::map<std::string, std::string> ControlMap;
 
 class ClickTransformer {
  public:
-  static const int kClickNanoseconds = 100000000;
+  static const int kClickNanoseconds = 200000000;
   static const ControlMap kGripperControls;
   static const ControlMap kPointHeadControls;
 
